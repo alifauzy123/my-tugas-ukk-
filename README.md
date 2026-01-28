@@ -23,104 +23,99 @@
 
 > Catatan: tabel **kategori_produk** diganti menjadi **kategori_menu**.
 
-```mermaid
-erDiagram
-  USERS {
-    BIGINT id PK
-    STRING name
-    STRING username
-    STRING password
-    ENUM role
-    TIMESTAMP created_at
-    TIMESTAMP updated_at
-  }
+```plantuml
+@startuml
+' ERD - Sistem Manajemen Kasir & Daftar Menu (Revisi)
+' Tabel yang disertakan: users, kasirs, kategori_menu, menus, menu_riwayat_harga, transaksis
 
-  KASIRS {
-    BIGINT id PK
-    STRING nama_lengkap
-    DATE tanggal_lahir
-    ENUM jenis_kelamin
-    TEXT alamat
-    STRING email
-    STRING no_hp
-    STRING username
-    STRING password
-    ENUM status
-    TIMESTAMP created_at
-    TIMESTAMP updated_at
-  }
+entity users {
+  * id : bigint <<PK>>
+  --
+  name : varchar
+  username : varchar
+  password : varchar
+  role : varchar
+  created_at : timestamp
+  updated_at : timestamp
+}
 
-  KASIR_LOGIN_LOGS {
-    BIGINT id PK
-    BIGINT kasir_id FK
-    ENUM action
-    DATETIME logged_at
-    TIMESTAMP created_at
-    TIMESTAMP updated_at
-  }
+entity kasirs {
+  * id : bigint <<PK>>
+  --
+  nama_lengkap : varchar
+  tanggal_lahir : date
+  jenis_kelamin : enum
+  alamat : text
+  email : varchar
+  no_hp : varchar
+  username : varchar
+  password : varchar
+  status : enum
+  avatar : varchar
+  bio : text
+  telepon_kantor : varchar
+  nama_bank : varchar
+  nomor_rekening : varchar
+  atas_nama_rekening : varchar
+  created_at : timestamp
+  updated_at : timestamp
+}
 
-  KATEGORI_MENU {
-    BIGINT id PK
-    STRING kode_kategori
-    STRING nama_kategori
-    TEXT deskripsi
-    ENUM status
-    TIMESTAMP created_at
-    TIMESTAMP updated_at
-  }
+entity kategori_menu {
+  * id : bigint <<PK>>
+  --
+  nama_kategori : varchar
+  status : enum
+  created_at : timestamp
+  updated_at : timestamp
+}
 
-  MENUS {
-    BIGINT id PK
-    STRING nama_menu
-    TEXT deskripsi
-    DECIMAL harga
-    BIGINT kategori_id FK
-    STRING gambar
-    ENUM status
-    TIMESTAMP created_at
-    TIMESTAMP updated_at
-  }
+entity menus {
+  * id : bigint <<PK>>
+  --
+  nama_menu : varchar
+  deskripsi : text
+  harga : decimal
+  kategori_id : bigint <<FK>>
+  gambar : varchar
+  status : enum
+  created_at : timestamp
+  updated_at : timestamp
+}
 
-  MENU_RIWAYAT_HARGA {
-    BIGINT id PK
-    BIGINT menu_id FK
-    INT harga_lama
-    INT harga_baru
-    TIMESTAMP created_at
-    TIMESTAMP updated_at
-  }
+entity menu_riwayat_harga {
+  * id : bigint <<PK>>
+  --
+  menu_id : bigint <<FK>>
+  harga_lama : integer
+  harga_baru : integer
+  created_at : timestamp
+  updated_at : timestamp
+}
 
-  TRANSAKSIS {
-    BIGINT id PK
-    STRING kode_transaksi
-    BIGINT kasir_id FK
-    DECIMAL total
-    DECIMAL uang_dibayar
-    DECIMAL kembalian
-    DATETIME tanggal
-    STRING status
-    TIMESTAMP created_at
-    TIMESTAMP updated_at
-  }
+entity transaksis {
+  * id : bigint <<PK>>
+  --
+  kode_transaksi : varchar
+  kasir_id : bigint <<FK>>
+  total : decimal
+  uang_dibayar : decimal
+  kembalian : decimal
+  tanggal : datetime
+  status : varchar
+  created_at : timestamp
+  updated_at : timestamp
+}
 
-  TRANSAKSI_ITEMS {
-    BIGINT id PK
-    BIGINT transaksi_id FK
-    BIGINT menu_id FK
-    INT qty
-    DECIMAL harga_satuan
-    DECIMAL subtotal
-    ENUM tipe_pesanan
-    TIMESTAMP created_at
-    TIMESTAMP updated_at
-  }
+' Relationships
+kategori_menu ||--o{ menus : "kategori_id"
+menus ||--o{ menu_riwayat_harga : "menu_id"
+kasirs ||--o{ transaksis : "kasir_id"
 
-  KASIRS ||--o{ KASIR_LOGIN_LOGS : logs
-  KATEGORI_MENU ||--o{ MENUS : memiliki
-  MENUS ||--o{ MENU_RIWAYAT_HARGA : riwayat
-  KASIRS ||--o{ TRANSAKSIS : membuat
-  TRANSAKSIS ||--o{ TRANSAKSI_ITEMS : berisi
-  MENUS ||--o{ TRANSAKSI_ITEMS : dijual
+' Note: "users" digunakan untuk admin/owner accounts (role field).
+' If you want users linked to created_by/updated_by on other tables, we can add those FK fields.
+
+@enduml
 ```
 
 ### Catatan Penghapusan Tabel
