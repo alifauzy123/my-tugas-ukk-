@@ -1,66 +1,97 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistem Manajemen Kasir & Menu
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+>Aplikasi kasir berbasis Laravel dengan peran Admin, Owner, dan Kasir. Fokus utama: manajemen menu, transaksi kasir, laporan, serta manajemen data master.
 
-## About Laravel
+## Ringkasan Alur Sistem
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. **Pengguna membuka aplikasi**
+	- Halaman awal menampilkan daftar menu aktif.
+2. **Login sesuai peran**
+	- Admin/Owner/Kasir login melalui halaman login.
+3. **Akses dashboard per peran**
+	- Admin: dashboard admin + manajemen data.
+	- Owner: dashboard owner + laporan dan monitoring.
+	- Kasir: dashboard kasir + transaksi harian.
+4. **Kelola data sesuai peran**
+	- Admin: kategori, produk, kasir, menu, laporan kasir.
+	- Owner: kasir, menu, laporan kasir, daftar transaksi.
+	- Kasir: transaksi, pesanan, detail pesanan, pembayaran, profil.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Peran & Hak Akses
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Admin**
+  - Kelola kategori, produk, kasir, menu.
+  - Lihat dan ekspor laporan kasir.
 
-## Learning Laravel
+- **Owner**
+  - Lihat ringkasan dashboard owner.
+  - Kelola kasir (lihat/edit).
+  - Lihat menu dan riwayat harga.
+  - Lihat dan ekspor laporan kasir.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Kasir**
+  - Dashboard kasir (omset, transaksi hari ini, dsb.).
+  - Proses transaksi dan checkout.
+  - Kelola pesanan, detail pesanan, pembayaran.
+  - Update profil kasir.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Modul Utama
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Autentikasi**: login, logout, register (admin/kasir).
+- **Master Data**: kategori, produk, kasir.
+- **Menu**: CRUD menu + riwayat harga.
+- **Transaksi**: kasir checkout, daftar transaksi, pembayaran.
+- **Laporan**: laporan kasir + ekspor.
 
-## Laravel Sponsors
+## Rute Penting (Ringkas)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- **Umum**
+  - `/` (landing menu aktif)
+  - `/login`, `/logout`, `/register`
 
-### Premium Partners
+- **Admin (auth + role:admin)**
+  - `/dashboard`
+  - `/kategori`, `/produk`, `/kasir`, `/menu`
+  - `/laporan/kasir`
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+- **Owner (auth + role:owner)**
+  - `/dashboardowner`
+  - `/owner/kasir/*`
+  - `/owner/menu`
+  - `/owner/laporan/kasir`
 
-## Contributing
+- **Kasir (auth:kasir + role:kasir)**
+  - `/dashboardkasir`
+  - `/transaksi`, `/transaksi/checkout`
+  - `/pesanan`, `/detail_pesanan`, `/pembayaran`
+  - `/kasir-profile`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Teknologi
 
-## Code of Conduct
+- Laravel
+- Tailwind CSS
+- MySQL/MariaDB
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Cara Menjalankan (Lokal)
 
-## Security Vulnerabilities
+1. Install dependensi:
+	- `composer install`
+	- `npm install`
+2. Copy env:
+	- `cp .env.example .env`
+3. Generate key:
+	- `php artisan key:generate`
+4. Konfigurasi database di `.env`
+5. Migrasi & seeder:
+	- `php artisan migrate --seed`
+6. Build asset:
+	- `npm run build` (atau `npm run dev`)
+7. Jalankan server:
+	- `php artisan serve`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Dokumen Pendukung
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- ARCHITECTURE_OVERVIEW.md
+- MENU_SYSTEM_DOCS.md
+- COMPLETION_REPORT.md
+- DEPLOYMENT_SUMMARY.md
