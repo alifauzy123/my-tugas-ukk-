@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Kasir;
-use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
@@ -36,7 +35,7 @@ class RegisterController extends Controller
             'email'         => $request->email,
             'no_hp'         => $request->no_hp,
             'username'      => $request->username,
-            'password'      => Hash::make($request->password),
+            'password'      => $request->password,
             'status'        => 'pending' // default registrasi
         ]);
 

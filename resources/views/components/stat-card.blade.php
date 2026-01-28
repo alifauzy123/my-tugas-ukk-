@@ -33,7 +33,7 @@ $iconColorClass = match($color) {
                 @if($trend)
                     <p class="text-xs {{ $trend > 0 ? 'text-green-200' : 'text-red-200' }} mt-2">
                         <i class="fas {{ $trend > 0 ? 'fa-arrow-up' : 'fa-arrow-down' }}"></i>
-                        {{ abs($trend) }}% dari bulan lalu
+                        {{ abs($trend) }}% dari minggu lalu
                     </p>
                 @endif
             </div>

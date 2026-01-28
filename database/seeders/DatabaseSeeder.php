@@ -14,19 +14,23 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Admin
-        User::create([
-            'name' => 'Admin',
-            'username' => 'admin',
-            'password' => Hash::make('123456'),
-            'role' => 'admin',
-        ]);
+        User::updateOrCreate(
+            ['username' => 'admin'],
+            [
+                'name' => 'Admin',
+                'password' => Hash::make('123456'),
+                'role' => 'admin',
+            ]
+        );
 
-        // Kasir
-        User::create([
-            'name' => 'Kasir 1',
-            'username' => 'arisetyawan',
-            'password' => Hash::make('ari123'),
-            'role' => 'kasir',
-        ]);
+        // Owner
+        User::updateOrCreate(
+            ['username' => 'owner321'],
+            [
+                'name' => 'Owner',
+                'password' => Hash::make('owner123'),
+                'role' => 'owner',
+            ]
+        );
     }
 }

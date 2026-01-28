@@ -28,6 +28,7 @@
                 <i class="fas fa-search text-lg"></i>
             </span>
             <input type="text" id="search" placeholder="Cari supplier berdasarkan nama, kode, atau telepon..." 
+                
                 class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200 transition-all text-sm">
         </div>
     </div>

@@ -34,7 +34,7 @@ class PesananController extends Controller
     //  dd($request->all());
     $request->validate([
         'pelanggan_id' => 'required|exists:pelanggan,id',
-        'kasir_id' => 'required|exists:kasir,id',
+        'kasir_id' => 'required|exists:kasirs,id',
         'tanggal' => 'required|date',
         'status' => 'required|in:Pending,Diproses,Selesai',
         'catatan' => 'nullable|string',
@@ -75,7 +75,7 @@ public function update(Request $request, $id)
 {
     $request->validate([
         'pelanggan_id' => 'required|exists:pelanggan,id',
-        'kasir_id' => 'required|exists:kasir,id',
+        'kasir_id' => 'required|exists:kasirs,id',
         'tanggal' => 'required|date',
         'status' => 'required|in:Pending,Diproses,Selesai',
         'catatan' => 'nullable|string',

@@ -32,6 +32,7 @@
             <option value="">Semua Status</option>
             <option value="approved">Approved</option>
             <option value="pending">Pending</option>
+            <option value="rejected">Rejected</option>
         </select>
         <button onclick="refreshTable()" class="px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all text-sm font-semibold border-2 border-gray-200">
             <i class="fas fa-sync-alt"></i>
@@ -71,6 +72,17 @@
             </div>
             <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
                 <i class="fas fa-clock text-yellow-500 text-xl"></i>
+            </div>
+        </div>
+    </div>
+    <div class="bg-white rounded-lg p-4 shadow-md border-l-4 border-red-500">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 text-sm font-semibold">Rejected</p>
+                <p class="text-2xl font-bold text-gray-900 mt-1">{{ count(array_filter($kasir->toArray(), fn($k) => $k['status'] === 'rejected')) }}</p>
+            </div>
+            <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                <i class="fas fa-times-circle text-red-500 text-xl"></i>
             </div>
         </div>
     </div>
@@ -114,6 +126,10 @@
                                 <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
                                     <i class="fas fa-check-circle mr-1"></i>Approved
                                 </span>
+                            @elseif($k->status === 'rejected')
+                                <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                    <i class="fas fa-times-circle mr-1"></i>Rejected
+                                </span>
                             @else
                                 <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
                                     <i class="fas fa-clock mr-1"></i>Pending
@@ -156,23 +172,32 @@
     // Search functionality
     document.getElementById('search').addEventListener('input', function () {
         const keyword = this.value.toLowerCase();
+        const selectedStatus = document.getElementById('filterStatus').value.toLowerCase();
+        
         document.querySelectorAll('#dataTable tr.data-row').forEach(row => {
             const content = row.innerText.toLowerCase();
-            row.style.display = content.includes(keyword) ? '' : 'none';
+            const statusAttr = row.getAttribute('data-status');
+            
+            const matchesKeyword = content.includes(keyword);
+            const matchesStatus = selectedStatus === '' || statusAttr === selectedStatus;
+            
+            row.style.display = (matchesKeyword && matchesStatus) ? '' : 'none';
         });
     });
 
     // Filter by status
     document.getElementById('filterStatus').addEventListener('change', function () {
         const selectedStatus = this.value.toLowerCase();
+        const keyword = document.getElementById('search').value.toLowerCase();
+        
         document.querySelectorAll('#dataTable tr.data-row').forEach(row => {
             const statusAttr = row.getAttribute('data-status');
+            const content = row.innerText.toLowerCase();
             
-            if (selectedStatus === '' || statusAttr === selectedStatus) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
+            const matchesKeyword = content.includes(keyword);
+            const matchesStatus = selectedStatus === '' || statusAttr === selectedStatus;
+            
+            row.style.display = (matchesKeyword && matchesStatus) ? '' : 'none';
         });
     });
 
@@ -220,81 +245,5 @@
             }
         });
     }
-</script>
-            if (selectedRow) selectedRow.classList.remove('bg-gray-100');
-            ['btnRead', 'btnEdit', 'btnDelete'].forEach(id => document.getElementById(id).classList.add('hidden'));
-        }
-    });
-
-    document.getElementById('btnRead').addEventListener('click', () => {
-        if (selectedId) window.location.href = `/kasir/${selectedId}`;
-    });
-
-    document.getElementById('btnEdit').addEventListener('click', () => {
-        if (selectedId) window.location.href = `/kasir/${selectedId}/edit`;
-    });
-
-   document.getElementById('btnDelete').addEventListener('click', () => {
-    if (!selectedId || selectedId === 'null') {
-        Swal.fire('Gagal', 'Data yang dipilih tidak valid.', 'error');
-        return;
-    }
-
-    Swal.fire({
-        title: 'Apakah Anda Yakin?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',    
-        confirmButtonText: 'Ok',
-        cancelButtonText: 'No'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = `/kasir/${selectedId}`;    
-
-            const csrf = document.createElement('input');
-            csrf.type = 'hidden';
-            csrf.name = '_token';
-            csrf.value = csrfToken;
-            form.appendChild(csrf);
-
-            const method = document.createElement('input');
-            method.type = 'hidden';
-            method.name = '_method';
-            method.value = 'DELETE';
-            form.appendChild(method);
-
-            document.body.appendChild(form);
-            form.submit();
-        }
-    });
-});
-
-
-    document.getElementById('search').addEventListener('input', function () {
-        const keyword = this.value.toLowerCase();
-        document.querySelectorAll('#dataTable tr').forEach(row => {
-            const content = row.innerText.toLowerCase();
-            row.style.display = content.includes(keyword) ? '' : 'none';
-        });
-    });
-
-    document.getElementById('search').addEventListener('input', function () {
-        const keyword = this.value.toLowerCase();
-        document.querySelectorAll('#dataTable tr').forEach(row => {
-            row.style.display = row.innerText.toLowerCase().includes(keyword) ? '' : 'none';
-        });
-    });
-
-    function refreshTable() {
-        window.location.reload();
-    }
-
-    document.getElementById('limitSelect').addEventListener('change', function () {
-        console.log('Tampilkan:', this.value, 'data');
-    });
 </script>
 @endpush

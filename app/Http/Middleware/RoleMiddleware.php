@@ -16,6 +16,12 @@ class RoleMiddleware
             }
         }
 
+        if ($role === 'owner') {
+            if (!Auth::guard('web')->check() || Auth::guard('web')->user()->role !== 'owner') {
+                return redirect()->route('login')->with('error', 'Akses owner ditolak.');
+            }
+        }
+
         if ($role === 'kasir') {
             if (!Auth::guard('kasir')->check()) {
                 return redirect()->route('login')->with('error', 'Akses kasir ditolak.');

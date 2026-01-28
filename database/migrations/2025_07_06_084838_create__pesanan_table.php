@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->id();
             $table->string('kode_pesanan', 10)->unique(); // Contoh: PSN001
             $table->foreignId('pelanggan_id')->constrained('pelanggan')->onDelete('cascade');
-            $table->foreignId('kasir_id')->constrained('kasir')->onDelete('cascade');
+            $table->foreignId('kasir_id')->constrained('kasirs')->onDelete('cascade');
             $table->date('tanggal');
             $table->enum('status', ['Pending', 'Diproses', 'Selesai'])->default('Pending');
             $table->text('catatan')->nullable();

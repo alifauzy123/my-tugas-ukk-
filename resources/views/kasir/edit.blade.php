@@ -129,6 +129,9 @@
                         <option value="approved" {{ $kasir->status == 'approved' ? 'selected' : '' }}>
                             <i class="fas fa-check-circle"></i> Approved
                         </option>
+                        <option value="rejected" {{ $kasir->status == 'rejected' ? 'selected' : '' }}>
+                            <i class="fas fa-times-circle"></i> Rejected
+                        </option>
                     </select>
                 </div>
             </div>

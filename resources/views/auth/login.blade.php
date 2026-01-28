@@ -3,7 +3,7 @@
 
     <head>
         <meta charset="UTF-8">
-        <title>Login - ERP</title>
+        <title>LOGIN UMKM RESTO</title>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
 
@@ -22,12 +22,38 @@
                 <div class="max-w-md mx-auto">
                     {{-- Logo --}}
                     <div class="text-center mb-4">
-                        <img src="{{ asset('logo.jpg') }}" alt="Logo" class="inline-block h-20">
+                        <img src="{{ asset('logoresto.png') }}" alt="Logo" class="inline-block h-20">
                     </div>
                     <h2 class="text-md text-gray-400 text-center mb-6">Masuk untuk melanjutkan</h2>
+                    
+                    {{-- Alert success jika login berhasil --}}
+                    @if (session('success'))
+                        <div class="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded-md text-sm flex items-center gap-2">
+                            <i class="fas fa-check-circle"></i>
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    
+                    {{-- Alert processing jika data sedang diproses --}}
+                    @if (session('processing'))
+                        <div class="mb-4 p-3 bg-blue-100 border border-blue-400 text-blue-700 rounded-md text-sm flex items-center gap-2">
+                            <i class="fas fa-hourglass-half animate-spin"></i>
+                            {{ session('processing') }}
+                        </div>
+                    @endif
+                    
+                    {{-- Alert rejected jika data ditolak --}}
+                    @if (session('rejected'))
+                        <div class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-md text-sm flex items-center gap-2">
+                            <i class="fas fa-ban"></i>
+                            {{ session('rejected') }}
+                        </div>
+                    @endif
+                    
                     {{-- Alert error jika login gagal --}}
                     @if (session('error'))
-                        <div class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-md text-sm">
+                        <div class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-md text-sm flex items-center gap-2">
+                            <i class="fas fa-exclamation-circle"></i>
                             {{ session('error') }}
                         </div>
                     @endif
@@ -81,6 +107,11 @@
                                     Daftar disini
                                 </a>
                             </p>
+                            <p class="text-sm text-gray-600 mt-3">
+                                <a href="http://127.0.0.1:8000/" class="text-red-600 font-semibold hover:underline">
+                                    Kembali ke Beranda
+                                </a>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -89,9 +120,9 @@
 
         {{-- Footer --}}
         <footer class="absolute bottom-0 right-0 p-4 text-sm text-black">
-            ©2025 Copyright <a class="underline" href="https://www.instagram.com/alxcbum?igsh=ZWVpZHBzdGE4ZTVz">MASAMBA</a>.
+            ©2025 Copyright <a class="underline" href="https://www.instagram.com/alxcbum?igsh=ZWVpZHBzdGE4ZTVz">ADMIN GANTENG</a>.
             All Rights Reserved
-        </footer>
+        </footer>                                                                                                   
 
         <script>
             const passwordInput = document.getElementById('password');

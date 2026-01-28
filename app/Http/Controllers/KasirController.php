@@ -55,7 +55,7 @@ public function store(Request $request)
 {
     // Validasi hanya status
     $request->validate([
-        'status' => 'required|in:pending,approved,nonaktif',
+        'status' => 'required|in:pending,approved,rejected',
     ]);
 
     // Ambil data kasir

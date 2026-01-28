@@ -36,15 +36,7 @@
             <!-- Content -->
             <div class="p-8 space-y-6">
                 
-                <!-- Kode Kasir -->
-                <div class="border-b-2 border-gray-100 pb-6">
-                    <p class="text-xs font-semibold text-gray-500 uppercase mb-2 flex items-center gap-2">
-                        <i class="fas fa-id-card text-teal-500"></i>
-                        Kode Kasir
-                    </p>
-                    <p class="text-lg font-mono font-bold text-gray-900">{{ $kasir->kode_kasir ?? '-' }}</p>
-                </div>
-
+            
                 <!-- Nama Lengkap -->
                 <div class="border-b-2 border-gray-100 pb-6">
                     <p class="text-xs font-semibold text-gray-500 uppercase mb-2 flex items-center gap-2">
