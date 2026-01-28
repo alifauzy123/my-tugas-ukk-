@@ -123,6 +123,54 @@ kasirs ||--o{ transaksis : "kasir_id"
 Tabel berikut dihapus dari skema dokumentasi:
 `produk`, `suppliers`, `purchase_orders`, `riwayat_harga`, `mutasi_stoks`, `ulasan`, `detail_pesanan`, `pesanan`, `penerimaa_barang`, `kendaraan`, `pelanggan`, `pembayaran`.
 
+## Use Case Diagram
+
+```plantuml
+@startuml
+left to right direction
+
+actor Admin
+actor Owner
+actor Kasir
+
+rectangle "Sistem Manajemen Kasir & Menu" {
+  usecase "Login" as UC_Login
+  usecase "Kelola Kategori Menu" as UC_Kategori
+  usecase "Kelola Menu" as UC_Menu
+  usecase "Kelola Kasir" as UC_Kasir
+  usecase "Lihat Riwayat Harga Menu" as UC_RiwayatHarga
+  usecase "Lihat Laporan Kasir" as UC_Laporan
+  usecase "Lihat Dashboard" as UC_Dashboard
+  usecase "Proses Transaksi" as UC_Transaksi
+  usecase "Lihat Transaksi" as UC_LihatTransaksi
+  usecase "Kelola Profil Kasir" as UC_Profil
+}
+
+Admin --> UC_Login
+Admin --> UC_Dashboard
+Admin --> UC_Kategori
+Admin --> UC_Menu
+Admin --> UC_Kasir
+Admin --> UC_Laporan
+Admin --> UC_RiwayatHarga
+
+Owner --> UC_Login
+Owner --> UC_Dashboard
+Owner --> UC_Kasir
+Owner --> UC_Menu
+Owner --> UC_RiwayatHarga
+Owner --> UC_Laporan
+Owner --> UC_LihatTransaksi
+
+Kasir --> UC_Login
+Kasir --> UC_Dashboard
+Kasir --> UC_Transaksi
+Kasir --> UC_LihatTransaksi
+Kasir --> UC_Profil
+
+@enduml
+```
+
 ## Peran & Hak Akses
 
 - **Admin**
